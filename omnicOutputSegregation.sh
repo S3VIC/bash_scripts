@@ -8,19 +8,19 @@ tif_amount=$(ls | grep .TIF | wc -l)
 spa_amount=$(ls | grep .SPA | wc -l)
 png_amount=$(ls | grep .png | wc -l)
 
-if [ jpg_amount -gt 0 ]
+if [ $jpg_amount -gt 0 ]
 then
 	#creating directory for optical microscopy images and moving all images to that dir
 	mkdir -p optical && mv *.JPG ./optical -v 
 fi
 
-if [ spa_amount -gt 0 ]
+if [ $spa_amount -gt 0 ]
 then
 	#creating dir for omnic project files and moving them inside this dir
 	mkdir -p spki && mv *.SPA ./spki -v 
 fi
 
-if [ png_amount -gt 0 ]
+if [ $png_amount -gt 0 ]
 then
 	#removing all previously created spectras with spectraAnalyser (python project)
 	rm *.png
