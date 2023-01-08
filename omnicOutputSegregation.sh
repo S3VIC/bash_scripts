@@ -25,6 +25,11 @@ then
 	#removing all previously created spectras with spectraAnalyser (python project)
 	rm *.png
 fi
+
+if [ $tif_amount -gt 0 ]
+then
+	mkdir -p tify && *.TIF ./tify -v
+fi
 #creating spectras using spectraAnalyser (y argument allows to create also spectras
 #with gal_peaks positions visible on spectra
 python3 ~/PycharmProjects/spectraAnalyser/main.py ./ y
