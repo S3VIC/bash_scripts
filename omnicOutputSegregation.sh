@@ -2,23 +2,34 @@
 # for monitoring invoked commands
 set -x
 
-# checking for presence of JPG images
+check_file_presence() {
+	if [ $1 -gt 0 ]
+	then
+		mkdir -p $2 && mv *.$3 ./$2 -v
+	fi
+}
+
+
+# for checking the presence of
 jpg_amount=$(ls | grep .JPG | wc -l)
 tif_amount=$(ls | grep .TIF | wc -l)
 spa_amount=$(ls | grep .SPA | wc -l)
 png_amount=$(ls | grep .png | wc -l)
 
-if [ $jpg_amount -gt 0 ]
-then
-	#creating directory for optical microscopy images and moving all images to that dir
-	mkdir -p optical && mv *.JPG ./optical -v 
-fi
+# directories names
+dir_for_jpg="optical"
+dir_for_spa="spki"
+dir_for_tif="tify"
 
-if [ $spa_amount -gt 0 ]
-then
-	#creating dir for omnic project files and moving them inside this dir
-	mkdir -p spki && mv *.SPA ./spki -v 
-fi
+# extensions
+jpg_ext="JPG"
+tif_ext="TIF"
+spa_ext="SPA"
+png_ext="png"
+
+check_file_presence $jpg_amount $dir_for_jpg $jpg_ext
+check_file_presence $spa_amount $dir_for_spa $spa_ext
+check_file_presence $tif_amount $dir_for_tif $tif_ext
 
 if [ $png_amount -gt 0 ]
 then
@@ -26,10 +37,6 @@ then
 	rm *.png
 fi
 
-if [ $tif_amount -gt 0 ]
-then
-	mkdir -p tify && *.TIF ./tify -v
-fi
 #creating spectras using spectraAnalyser (y argument allows to create also spectras
 #with gal_peaks positions visible on spectra
 python3 ~/PycharmProjects/spectraAnalyser/main.py ./ y
